@@ -10,8 +10,13 @@ import app.cos.rest.model.Herd;
 
 public interface RestService {
 	Cow register(Cow cow);
+	Herd register(Herd herd);
+
+	
+	
 	Cow findById(int id);
 	List<Cow> getAllCows();
+	List<CowDTO> getAllCowsDTO();
 	
 	List<HerdDTO> getAllHerds();
 	

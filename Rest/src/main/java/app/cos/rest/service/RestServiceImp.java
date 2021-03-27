@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import app.cos.rest.dto.CowDTO;
@@ -27,6 +28,11 @@ public class RestServiceImp implements RestService {
 	@Override
 	public Cow register(Cow cow) {
 		return cowRepository.save(cow);
+	}
+	
+	@Override
+	public Herd register(Herd herd) {
+		return herdRepository.save(herd);
 	}
 
 	@Override
@@ -120,6 +126,20 @@ public class RestServiceImp implements RestService {
 		return herds;
 	
 	}
+	
+	@Override
+	public List<CowDTO> getAllCowsDTO(){
+		
+		List<CowDTO> cows_dto = new ArrayList<>();		
+		for(Cow cow : cowRepository.findAll()) {
+			cows_dto.add(findById2(cow.getId()));
+		}
+			
+		return cows_dto;
+	}
+	
+
+	 
 	
 	
 

@@ -3,6 +3,8 @@ package app.cos.rest.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-
+import org.springframework.web.util.UriComponentsBuilder;
 
 import app.cos.rest.dto.CowDTO;
 import app.cos.rest.dto.HerdDTO;
@@ -28,7 +29,11 @@ public class CowController {
 	
 	@Autowired
 	RestService restService;
-
+	
+	
+	//-----------------------------------------------------------------------------------//
+	//-------------------------------- POST ---------------------------------------------//
+	//-----------------------------------------------------------------------------------//
 	@PostMapping(path = "/api/cows")
 	public ResponseEntity<Cow> addCow(@RequestBody Cow cow){
 		Cow newCow = restService.register(cow);
@@ -40,9 +45,21 @@ public class CowController {
 		return ResponseEntity.created(location).body(newCow);
 	}	
 
-	//ASOCIA UN COW A UN HERD ya existentes
-	//http://localhost:8080/api/herd?herd=1&cow=1
 	@PostMapping(path = "/api/herd")
+	public ResponseEntity<Herd> addHerd(@RequestBody Herd herd){
+		Herd newHerd = restService.register(herd);
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(newHerd.getId())
+				.toUri();
+		return ResponseEntity.created(location).body(newHerd);
+	}
+	
+
+	//ASOCIA UN COW A UN HERD that already exists
+	//http://localhost:8080/api/associate_cow?herd=1&cow=1
+	@PostMapping(path = "/api/associate_cow")
 	public ResponseEntity<Herd> registerCowToHerd(@RequestParam(value = "herd")int id_herd, @RequestParam(value = "cow")int id_cow ){
 		Herd herd = restService.findHerdById(id_herd);
 		Cow cow = restService.findById(id_cow);
@@ -52,38 +69,33 @@ public class CowController {
 	}
 	
 	
+	//-----------------------------------------------------------------------------------//
+	//-------------------------------- GET ---------------------------------------------//
+	//-----------------------------------------------------------------------------------//
 	
 	@GetMapping(path = "/api/cows")
-	public ResponseEntity<List<Cow>> getCows( ){
-		List<Cow> list = restService.getAllCows();
+	public ResponseEntity<List<CowDTO>> getCows(){
+		List<CowDTO> list = restService.getAllCowsDTO();
 		return ResponseEntity.ok(list);
 	}
-	
-
-	
-	@GetMapping(path = "/api/cows/{id}/")
-	public ResponseEntity<Cow> getCow(@PathVariable(value = "id") int id){
-		Cow p = restService.findById(id);		
-		return ResponseEntity.ok(p);
-	}
-	
-	@GetMapping(path = "/api/{id}")
-	public ResponseEntity<CowDTO> getCowDTO(@PathVariable(value = "id") int id){
+		
+	@GetMapping(path = "/api/cows/{id}")
+	public ResponseEntity<CowDTO> getCow(@PathVariable(value = "id") int id){
 		CowDTO p = restService.findById2(id);		
 		return ResponseEntity.ok(p);
 	}
 	
+	@GetMapping(path = "/api/herds")
+	public ResponseEntity<List<HerdDTO>> getHerds(){
+		return ResponseEntity.ok(restService.getAllHerds());
+	}
 	
 	@GetMapping(path = "/api/herds/{id}")
-	public ResponseEntity<HerdDTO> getHerdDTO(@PathVariable(value = "id") int id){
+	public ResponseEntity<HerdDTO> getHerd(@PathVariable(value = "id") int id){
 		HerdDTO p = restService.findHerdDTOById(id);		
 		return ResponseEntity.ok(p);
 	}
-	
-	@GetMapping(path = "/api/herds")
-	public ResponseEntity<List<HerdDTO>> getAllHerdDTO(){
-		return ResponseEntity.ok(restService.getAllHerds());
-	}
+
 	
 	//Para implementar paginacion se usan:
 	//@GetMapping(path = "/api/cows?page=1&limit=50"), entonces devuelve de a 50 
