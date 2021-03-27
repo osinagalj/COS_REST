@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import app.cos.rest.dto.CowDTO;
 import app.cos.rest.dto.HerdDTO;
 import app.cos.rest.model.Cow;
+import app.cos.rest.model.CowAlert;
 import app.cos.rest.model.Herd;
+import app.cos.rest.repository.CowAlertRepository;
 import app.cos.rest.repository.CowRepository;
 import app.cos.rest.repository.HerdRepository;
 
@@ -25,6 +27,9 @@ public class RestServiceImp implements RestService {
 	@Autowired
 	HerdRepository herdRepository;
 	
+	@Autowired
+	CowAlertRepository cowAlertRepository;
+	
 	@Override
 	public Cow register(Cow cow) {
 		return cowRepository.save(cow);
@@ -34,6 +39,12 @@ public class RestServiceImp implements RestService {
 	public Herd register(Herd herd) {
 		return herdRepository.save(herd);
 	}
+	
+	@Override
+	public CowAlert register(CowAlert cowAlert) {
+		return cowAlertRepository.save(cowAlert);
+	}
+	
 
 	@Override
 	public Cow findById(int id) {
@@ -52,9 +63,16 @@ public class RestServiceImp implements RestService {
 	}
 	
 	@Override
-	public CowDTO findById2(int id) {
+	public CowDTO findByIdCTO(int id) {
 		Cow cow = cowRepository.findById(id);
-		//Herd herd = herdRepository.findById(cow.getHerd().getId());
+		Herd herd = herdRepository.findById(cow.getHerd().getId());
+		int id_herd = 0;
+		Date last_bcs = new Date();
+		int cc = 0;
+		
+		if(herd != null)
+			id_herd = (int) herd.getId();
+		
 		
 		CowDTO new_cow = new CowDTO(
 									cow.getId(),
@@ -65,8 +83,8 @@ public class RestServiceImp implements RestService {
 									cow.getWeigth(),
 									1,
 									1, //id_cowBcs
-									new Date(), //date of cowBcs
-									1 //cc
+									last_bcs, //date of cowBcs
+									cc
 		);
 		
 		return new_cow;
@@ -106,12 +124,7 @@ public class RestServiceImp implements RestService {
 		//Herd herd = herdRepository.findById(cow.getHerd().getId());
 	}
 	
-	 
-	@Override
-	public Cow saveCow(Cow cow) {
-		return cowRepository.save(cow);
-	}
-	
+
 	@Override
 	public List<HerdDTO> getAllHerds(){
 		
@@ -132,13 +145,28 @@ public class RestServiceImp implements RestService {
 		
 		List<CowDTO> cows_dto = new ArrayList<>();		
 		for(Cow cow : cowRepository.findAll()) {
-			cows_dto.add(findById2(cow.getId()));
+			cows_dto.add(findByIdCTO(cow.getId()));
 		}
 			
 		return cows_dto;
 	}
 	
+	@Override
+	public List<CowAlert> getAllCowsAlert(){
+		
+		List<CowAlert> cows = new ArrayList<CowAlert>();
+		Iterator<CowAlert> it = cowAlertRepository.findAll().iterator();
+		while (it.hasNext()) {
+			CowAlert cow = it.next();
+			cows.add(cow);
+		}
+			
+		return cows;
+	}
+	
 
+
+	
 	 
 	
 	

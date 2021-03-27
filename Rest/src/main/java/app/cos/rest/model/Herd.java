@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 @Entity //
-@Table(name = "herd")  //se le podria poner otro nombre a la tabla de esta forma
+@Table
 public class Herd {
 	
 	@Id

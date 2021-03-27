@@ -11,8 +11,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.hibernate.annotations.Check;
+
 @Entity //
-@Table(name = "cowAlert")  //se le podria poner otro nombre a la tabla de esta forma
+@Table
+@Check(constraints = "bcs_threshold_min < bcs_threshold_max")
 public class CowAlert {
 
 	@Id
@@ -20,26 +23,53 @@ public class CowAlert {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "animal_Id", referencedColumnName = "id" )
+	@JoinColumn(name = "cow_id", referencedColumnName = "id" )
 	private Cow cow;	
-
 
 	@Min(value=1)
 	@Max(value=9)
-	@Column(name = "bcs_threshold", nullable = false)
-	private int bcs_threshold;
+	@Column(name = "bcs_threshold_min", nullable = false)
+	private int bcs_threshold_min;
 	
+	@Min(value=1)
+	@Max(value=9)
+	@Column(name = "bcs_threshold_max", nullable = false)
+	private int bcs_threshold_max;
+	
+	
+	//-------------------------------------------------------------------------------------//
+	//----------------------------- Getters && Setters ------------------------------------//
+	//-------------------------------------------------------------------------------------//
+	
+	public int getBcs_threshold_min() {
+		return bcs_threshold_min;
+	}
+
+
+
+	public void setBcs_threshold_min(int bcs_threshold_min) {
+		this.bcs_threshold_min = bcs_threshold_min;
+	}
+
+
+
+	public int getBcs_threshold_max() {
+		return bcs_threshold_max;
+	}
+
+
+
+	public void setBcs_threshold_max(int bcs_threshold_max) {
+		this.bcs_threshold_max = bcs_threshold_max;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}
 
-	public int getBcs_threshold() {
-		return bcs_threshold;
-	}
-	
-	public void setBcs_threshold(int bcs_threshold) {
-		this.bcs_threshold = bcs_threshold;
-	}
+
 	
 	public Cow getCow() {
 		return cow;

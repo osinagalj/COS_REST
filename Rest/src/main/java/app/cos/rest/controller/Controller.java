@@ -19,13 +19,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import app.cos.rest.dto.CowDTO;
 import app.cos.rest.dto.HerdDTO;
 import app.cos.rest.model.Cow;
+import app.cos.rest.model.CowAlert;
 import app.cos.rest.model.Herd;
 import app.cos.rest.service.RestService;
 
 
 
 @RestController
-public class CowController {
+public class Controller {
 	
 	@Autowired
 	RestService restService;
@@ -57,6 +58,17 @@ public class CowController {
 	}
 	
 
+	@PostMapping(path = "/api/cowAlert")
+	public ResponseEntity<CowAlert> addHerd(@RequestBody CowAlert cowAlert){
+		CowAlert newCowAlert = restService.register(cowAlert);
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(newCowAlert.getId())
+				.toUri();
+		return ResponseEntity.created(location).body(newCowAlert);
+	}
+
 	//ASOCIA UN COW A UN HERD that already exists
 	//http://localhost:8080/api/associate_cow?herd=1&cow=1
 	@PostMapping(path = "/api/associate_cow")
@@ -64,9 +76,11 @@ public class CowController {
 		Herd herd = restService.findHerdById(id_herd);
 		Cow cow = restService.findById(id_cow);
 		cow.setHerd(herd);
-		restService.saveCow(cow);
+		restService.register(cow);
 		return ResponseEntity.ok(herd);
 	}
+	
+	
 	
 	
 	//-----------------------------------------------------------------------------------//
@@ -81,7 +95,7 @@ public class CowController {
 		
 	@GetMapping(path = "/api/cows/{id}")
 	public ResponseEntity<CowDTO> getCow(@PathVariable(value = "id") int id){
-		CowDTO p = restService.findById2(id);		
+		CowDTO p = restService.findByIdCTO(id);		
 		return ResponseEntity.ok(p);
 	}
 	
@@ -95,6 +109,14 @@ public class CowController {
 		HerdDTO p = restService.findHerdDTOById(id);		
 		return ResponseEntity.ok(p);
 	}
+	
+	@GetMapping(path = "/api/cowAlerts")
+	public ResponseEntity<List<CowAlert>> getCowAlerts(){
+		List<CowAlert> p = restService.getAllCowsAlert();		
+		return ResponseEntity.ok(p);
+	}
+	
+	
 
 	
 	//Para implementar paginacion se usan:

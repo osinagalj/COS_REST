@@ -17,7 +17,7 @@ import app.cos.rest.model.Herd;
 
 
 @Entity //
-@Table(name = "cow")  //se le podria poner otro nombre a la tabla de esta forma
+@Table
 public class Cow {
 	
 	@Id
@@ -25,7 +25,7 @@ public class Cow {
 	private int id;
 	
 	@ManyToOne //El Many hace referencia a Cow y el One a Herd
-	@JoinColumn(name = "herd_Id", referencedColumnName = "id" )
+	@JoinColumn(name = "herd_id", referencedColumnName = "id" )
 	private Herd herd;	
 
 	
