@@ -7,10 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import app.cos.rest.model.Herd;
 
 
 @Entity //
@@ -20,6 +23,11 @@ public class Cow {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@ManyToOne //El Many hace referencia a Cow y el One a Herd
+	@JoinColumn(name = "herd_Id", referencedColumnName = "id" )
+	private Herd herd;	
+
 	
 	@Column(name = "eletronic_id", nullable = false)
 	private int eletronic_id;
@@ -40,6 +48,7 @@ public class Cow {
 	private float weigth;
 	
 
+	
 	public int getId() {
 		return id;
 	}
@@ -75,6 +84,12 @@ public class Cow {
 	}
 	public void setWeigth(float weigth) {
 		this.weigth = weigth;
+	}
+	public Herd getHerd() {
+		return herd;
+	}
+	public void setHerd(Herd herd) {
+		this.herd = herd;
 	}
 
 	
