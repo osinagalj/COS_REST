@@ -7,16 +7,17 @@ import app.cos.rest.dto.HerdDTO;
 import app.cos.rest.model.Cow;
 import app.cos.rest.model.CowAlert;
 import app.cos.rest.model.Herd;
+import app.cos.rest.model.HerdAlert;
 
 
 public interface RestService {
 	
 	//Cows
 	Cow register(Cow cow);
-	Cow findById(int id);
+	Cow findById(long id);
 	List<Cow> getAllCows();
 	List<CowDTO> getAllCowsDTO();
-	CowDTO findByIdCTO(int id);
+	CowDTO findByIdCTO(long id);
 	
 	//Herds
 	Herd register(Herd herd);
@@ -27,8 +28,10 @@ public interface RestService {
 
 	//CowAlerts
 	CowAlert register(CowAlert cowAlert);
-	List<CowAlert> getAllCowsAlert();
-	//HerdAlerts
+	List<CowAlert> getAllCowAlerts();
 	
+	//HerdAlerts
+	HerdAlert register(HerdAlert herdAlert);
+	List<HerdAlert> getAllHerdAlerts();
 	
 }

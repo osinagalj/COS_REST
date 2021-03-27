@@ -1,5 +1,5 @@
 package app.cos.rest.model;
-
+ 
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,13 +13,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-@Entity //
-@Table(name = "cowBcs")  //se le podria poner otro nombre a la tabla de esta forma
-public class CowBcs {
+@Entity 
+@Table
+public class CowBcs implements Comparable<CowBcs> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@ManyToOne
 	@JoinColumn(name = "cow_id", referencedColumnName = "id" )
@@ -33,6 +33,14 @@ public class CowBcs {
 	@Column(name = "cc", nullable = false)
 	private int cc;
 
+    @Override
+    public int compareTo(CowBcs cowBcs) {
+        return this.date.compareTo(cowBcs.getDate());
+    }
+	//-------------------------------------------------------------------------------------//
+	//----------------------------- Getters && Setters ------------------------------------//
+	//-------------------------------------------------------------------------------------//
+	
 	public long getId() {
 		return id;
 	}

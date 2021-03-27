@@ -1,21 +1,25 @@
 package app.cos.rest.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import app.cos.rest.dto.CowDTO;
 import app.cos.rest.dto.HerdDTO;
 import app.cos.rest.model.Cow;
 import app.cos.rest.model.CowAlert;
+import app.cos.rest.model.CowBcs;
 import app.cos.rest.model.Herd;
+import app.cos.rest.model.HerdAlert;
 import app.cos.rest.repository.CowAlertRepository;
+import app.cos.rest.repository.CowBcsRepository;
 import app.cos.rest.repository.CowRepository;
+import app.cos.rest.repository.HerdAlertRepository;
 import app.cos.rest.repository.HerdRepository;
 
 @Service
@@ -29,6 +33,13 @@ public class RestServiceImp implements RestService {
 	
 	@Autowired
 	CowAlertRepository cowAlertRepository;
+	
+	@Autowired
+	HerdAlertRepository herdAlertRepository;
+	
+	@Autowired
+	CowBcsRepository cowBcsRepository;
+	
 	
 	@Override
 	public Cow register(Cow cow) {
@@ -45,9 +56,15 @@ public class RestServiceImp implements RestService {
 		return cowAlertRepository.save(cowAlert);
 	}
 	
+	
+	@Override
+	public HerdAlert register(HerdAlert herdAlert) {
+		return herdAlertRepository.save(herdAlert); 
+	}
+	
 
 	@Override
-	public Cow findById(int id) {
+	public Cow findById(long id) {
 		return cowRepository.findById(id);
 	}
 	
@@ -63,16 +80,26 @@ public class RestServiceImp implements RestService {
 	}
 	
 	@Override
-	public CowDTO findByIdCTO(int id) {
+	public CowDTO findByIdCTO(long id) {
 		Cow cow = cowRepository.findById(id);
 		Herd herd = herdRepository.findById(cow.getHerd().getId());
 		int id_herd = 0;
-		Date last_bcs = new Date();
+		Date last_bcs = null;
 		int cc = 0;
 		
 		if(herd != null)
 			id_herd = (int) herd.getId();
 		
+		
+		List<CowBcs> list = cowBcsRepository.findAllByCow(cow);
+		if(list.size() > 0 ) {
+			Collections.sort(list);
+			Collections.reverse(list);
+			CowBcs cowBcs = list.get(0);
+			last_bcs = cowBcs.getDate();
+			cc = cowBcs.getCc();
+		}
+
 		
 		CowDTO new_cow = new CowDTO(
 									cow.getId(),
@@ -81,8 +108,7 @@ public class RestServiceImp implements RestService {
 									cow.getLast_due_date(),
 									cow.getDeliveries(),
 									cow.getWeigth(),
-									1,
-									1, //id_cowBcs
+									id_herd, //id_cowBcs
 									last_bcs, //date of cowBcs
 									cc
 		);
@@ -94,26 +120,11 @@ public class RestServiceImp implements RestService {
 	@Override
 	public HerdDTO findHerdDTOById(int id) {
 		Herd herd = herdRepository.findById(id);
-		//Herd herd = herdRepository.findById(cow.getHerd().getId());
-		
 		HerdDTO new_herd = new HerdDTO(herd.getId(),herd.getLocation());
-		
 		for(Cow cow : cowRepository.findAllByherd(herd)) {
-			CowDTO new_cow = new CowDTO(
-					cow.getId(),
-					cow.getEletronic_id(),
-					cow.getBorn_date(),
-					cow.getLast_due_date(),
-					cow.getDeliveries(),
-					cow.getWeigth(),
-					herd.getId(),
-					1, //id_cowBcs
-					new Date(), //date of cowBcs
-					1 //cc
-			);
+			CowDTO new_cow = findByIdCTO(cow.getId());
 			new_herd.addCow(new_cow);
 		}
-			
 		
 		return new_herd;
 	}
@@ -152,7 +163,7 @@ public class RestServiceImp implements RestService {
 	}
 	
 	@Override
-	public List<CowAlert> getAllCowsAlert(){
+	public List<CowAlert> getAllCowAlerts(){
 		
 		List<CowAlert> cows = new ArrayList<CowAlert>();
 		Iterator<CowAlert> it = cowAlertRepository.findAll().iterator();
@@ -162,6 +173,20 @@ public class RestServiceImp implements RestService {
 		}
 			
 		return cows;
+	}
+	
+		
+	@Override
+	public List<HerdAlert> getAllHerdAlerts(){
+		
+		List<HerdAlert> herdAlerts = new ArrayList<HerdAlert>();
+		Iterator<HerdAlert> it = herdAlertRepository.findAll().iterator();
+		while (it.hasNext()) {
+			HerdAlert herdAlert = it.next();
+			herdAlerts.add(herdAlert);
+		}
+			
+		return herdAlerts;
 	}
 	
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,11 +22,13 @@ import app.cos.rest.dto.HerdDTO;
 import app.cos.rest.model.Cow;
 import app.cos.rest.model.CowAlert;
 import app.cos.rest.model.Herd;
+import app.cos.rest.model.HerdAlert;
 import app.cos.rest.service.RestService;
 
 
 
 @RestController
+@RequestMapping("/api/v0/")
 public class Controller {
 	
 	@Autowired
@@ -35,7 +38,7 @@ public class Controller {
 	//-----------------------------------------------------------------------------------//
 	//-------------------------------- POST ---------------------------------------------//
 	//-----------------------------------------------------------------------------------//
-	@PostMapping(path = "/api/cows")
+	@PostMapping(path = "cows")
 	public ResponseEntity<Cow> addCow(@RequestBody Cow cow){
 		Cow newCow = restService.register(cow);
 		URI location = ServletUriComponentsBuilder
@@ -46,7 +49,7 @@ public class Controller {
 		return ResponseEntity.created(location).body(newCow);
 	}	
 
-	@PostMapping(path = "/api/herd")
+	@PostMapping(path = "herd")
 	public ResponseEntity<Herd> addHerd(@RequestBody Herd herd){
 		Herd newHerd = restService.register(herd);
 		URI location = ServletUriComponentsBuilder
@@ -58,7 +61,7 @@ public class Controller {
 	}
 	
 
-	@PostMapping(path = "/api/cowAlert")
+	@PostMapping(path = "cowAlert")
 	public ResponseEntity<CowAlert> addHerd(@RequestBody CowAlert cowAlert){
 		CowAlert newCowAlert = restService.register(cowAlert);
 		URI location = ServletUriComponentsBuilder
@@ -71,7 +74,7 @@ public class Controller {
 
 	//ASOCIA UN COW A UN HERD that already exists
 	//http://localhost:8080/api/associate_cow?herd=1&cow=1
-	@PostMapping(path = "/api/associate_cow")
+	@PostMapping(path = "associate_cow")
 	public ResponseEntity<Herd> registerCowToHerd(@RequestParam(value = "herd")int id_herd, @RequestParam(value = "cow")int id_cow ){
 		Herd herd = restService.findHerdById(id_herd);
 		Cow cow = restService.findById(id_cow);
@@ -87,35 +90,40 @@ public class Controller {
 	//-------------------------------- GET ---------------------------------------------//
 	//-----------------------------------------------------------------------------------//
 	
-	@GetMapping(path = "/api/cows")
+	@GetMapping(path = "cows")
 	public ResponseEntity<List<CowDTO>> getCows(){
 		List<CowDTO> list = restService.getAllCowsDTO();
 		return ResponseEntity.ok(list);
 	}
 		
-	@GetMapping(path = "/api/cows/{id}")
+	@GetMapping(path = "cows/{id}")
 	public ResponseEntity<CowDTO> getCow(@PathVariable(value = "id") int id){
 		CowDTO p = restService.findByIdCTO(id);		
 		return ResponseEntity.ok(p);
 	}
 	
-	@GetMapping(path = "/api/herds")
+	@GetMapping(path = "herds")
 	public ResponseEntity<List<HerdDTO>> getHerds(){
 		return ResponseEntity.ok(restService.getAllHerds());
 	}
 	
-	@GetMapping(path = "/api/herds/{id}")
+	@GetMapping(path = "herds/{id}")
 	public ResponseEntity<HerdDTO> getHerd(@PathVariable(value = "id") int id){
 		HerdDTO p = restService.findHerdDTOById(id);		
 		return ResponseEntity.ok(p);
 	}
 	
-	@GetMapping(path = "/api/cowAlerts")
+	@GetMapping(path = "cowAlerts")
 	public ResponseEntity<List<CowAlert>> getCowAlerts(){
-		List<CowAlert> p = restService.getAllCowsAlert();		
+		List<CowAlert> p = restService.getAllCowAlerts();		
 		return ResponseEntity.ok(p);
 	}
 	
+	@GetMapping(path = "herdAlerts")
+	public ResponseEntity<List<HerdAlert>> getHerdAlerts(){
+		List<HerdAlert> p = restService.getAllHerdAlerts();		
+		return ResponseEntity.ok(p);
+	}
 	
 
 	

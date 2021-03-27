@@ -11,14 +11,13 @@ public class CowDTO {
 	private int deliveries;
 	private Float weigth;
 	private long id_herd;	
-	private long id_cowBcs;
 	private Date bcs_date = null;
 	private float cc;
 	
 
 	public CowDTO() {}
 	
-	public CowDTO(long id, long eletronic_id, Date born_date, Date last_due_date, int deliveries,Float weigth,long id_herd,long id_cowBcs,Date bcs_date, float cc) {
+	public CowDTO(long id, long eletronic_id, Date born_date, Date last_due_date, int deliveries,Float weigth,long id_herd,Date bcs_date, float cc) {
 		this.id = id;
 		this.eletronic_id = eletronic_id;
 		this.born_date = born_date;
@@ -26,7 +25,6 @@ public class CowDTO {
 		this.deliveries = deliveries;
 		this.weigth = weigth;
 		this.id_herd = id_herd;
-		this.id_cowBcs = id_cowBcs;
 		this.bcs_date = bcs_date;
 		this.cc = cc;
 	}
@@ -76,12 +74,7 @@ public class CowDTO {
 	public void setId_herd(long id_herd) {
 		this.id_herd = id_herd;
 	}
-	public long getId_cowBcs() {
-		return id_cowBcs;
-	}
-	public void setId_cowBcs(long id_cowBcs) {
-		this.id_cowBcs = id_cowBcs;
-	}
+
 	public Date getBcs_date() {
 		return bcs_date;
 	}

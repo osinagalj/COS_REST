@@ -22,23 +22,20 @@ public class Cow {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
-	@ManyToOne //El Many hace referencia a Cow y el One a Herd
+	@ManyToOne //The Many refers to Cow and the One to Herd
 	@JoinColumn(name = "herd_id", referencedColumnName = "id" )
 	private Herd herd;	
 
-	
 	@Column(name = "eletronic_id", nullable = false)
 	private int eletronic_id;
 	
 	
 	@Column(name = "born_date", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date born_date;
 	
 	@Column(name = "last_due_date", nullable = true)
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date last_due_date;
 	
 	@Column(name = "deliveries", nullable = false)
@@ -49,12 +46,14 @@ public class Cow {
 	
 
 	
-	public int getId() {
+	//-------------------------------------------------------------------------------------//
+	//----------------------------- Getters && Setters ------------------------------------//
+	//-------------------------------------------------------------------------------------//
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public int getEletronic_id() {
 		return eletronic_id;
 	}
@@ -91,6 +90,31 @@ public class Cow {
 	public void setHerd(Herd herd) {
 		this.herd = herd;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((herd == null) ? 0 : herd.hashCode());		
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cow other = (Cow) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 	
 }
