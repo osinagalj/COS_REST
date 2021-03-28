@@ -3,45 +3,31 @@ package app.cos.rest.dto;
 import java.util.Date;
 
 public class CowDTO {
-	
-	private long id;
-	private long eletronic_id;
-	private Date born_date;
-	private Date last_due_date = null;
-	private int deliveries;
-	private Float weigth;
-	private long id_herd;	
-	private Date bcs_date = null;
-	private float cc;
-	
 
-	public CowDTO() {}
+	private Long id;
+	private Long herd_id;	
+	private int eletronic_id;
+	private Date born_date;
+	private Date last_due_date;
+	private int deliveries;
+	private float weigth;
 	
-	public CowDTO(long id, long eletronic_id, Date born_date, Date last_due_date, int deliveries,Float weigth,long id_herd,Date bcs_date, float cc) {
-		this.id = id;
-		this.eletronic_id = eletronic_id;
-		this.born_date = born_date;
-		this.last_due_date = last_due_date;
-		this.deliveries = deliveries;
-		this.weigth = weigth;
-		this.id_herd = id_herd;
-		this.bcs_date = bcs_date;
-		this.cc = cc;
-	}
-	
-	//-------------------------------------------------------------------------------------//
-	//----------------------------- Getters && Setters ------------------------------------//
-	//-------------------------------------------------------------------------------------//
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	public long getEletronic_id() {
+	public Long getHerd_id() {
+		return herd_id;
+	}
+	public void setHerd_id(Long herd_id) {
+		this.herd_id = herd_id;
+	}
+	public int getEletronic_id() {
 		return eletronic_id;
 	}
-	public void setEletronic_id(long eletronic_id) {
+	public void setEletronic_id(int eletronic_id) {
 		this.eletronic_id = eletronic_id;
 	}
 	public Date getBorn_date() {
@@ -62,31 +48,10 @@ public class CowDTO {
 	public void setDeliveries(int deliveries) {
 		this.deliveries = deliveries;
 	}
-	public Float getWeigth() {
+	public float getWeigth() {
 		return weigth;
 	}
-	public void setWeigth(Float weigth) {
+	public void setWeigth(float weigth) {
 		this.weigth = weigth;
 	}
-	public long getId_herd() {
-		return id_herd;
-	}
-	public void setId_herd(long id_herd) {
-		this.id_herd = id_herd;
-	}
-
-	public Date getBcs_date() {
-		return bcs_date;
-	}
-	public void setBcs_date(Date bcs_date) {
-		this.bcs_date = bcs_date;
-	}
-	public float getCc() {
-		return cc;
-	}
-	public void setCc(float cc) {
-		this.cc = cc;
-	}
-
-
 }
