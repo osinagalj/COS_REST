@@ -2,8 +2,8 @@ package app.cos.rest.service;
 
 import java.util.List;
 
-import app.cos.rest.dto.CowExtraDTO;
-import app.cos.rest.dto.HerdExtraDTO;
+import app.cos.rest.dto.response.CowExtraDTO_response;
+import app.cos.rest.dto.response.HerdExtraDTO_response;
 import app.cos.rest.model.Cow;
 import app.cos.rest.model.CowAlert;
 import app.cos.rest.model.CowBcs;
@@ -29,7 +29,6 @@ public interface RestService {
 	//HerdExtra
 	HerdExtra getHerdExtraById(long id);
 	List<HerdExtra> getAllHerdExtra();
-
 	
 	//Herds
 	Herd register(Herd herd);
@@ -48,5 +47,6 @@ public interface RestService {
 	//CowBcs
 	CowBcs register(CowBcs cowBcs);
 	List<CowBcs> getAllCowBcs(long id);
+	List<CowBcs> getAllCowBcs();
 	
 }

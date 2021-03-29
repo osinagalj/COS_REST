@@ -1,10 +1,10 @@
-package app.cos.rest.dto;
+package app.cos.rest.dto.request;
 
 import java.util.Date;
 
-public class CowDTO {
+public class CowDTO_request {
 
-	private Long id;
+
 	private Long herd_id;	
 	private int eletronic_id;
 	private Date born_date;
@@ -12,12 +12,6 @@ public class CowDTO {
 	private int deliveries;
 	private float weigth;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public Long getHerd_id() {
 		return herd_id;
 	}

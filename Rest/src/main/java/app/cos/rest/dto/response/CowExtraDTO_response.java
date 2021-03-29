@@ -1,8 +1,8 @@
-package app.cos.rest.dto;
+package app.cos.rest.dto.response;
 
 import java.util.Date;
 
-public class CowExtraDTO {
+public class CowExtraDTO_response {
 	
 	private long id;
 	private long eletronic_id;
@@ -15,9 +15,9 @@ public class CowExtraDTO {
 	private float cc;
 	
 
-	public CowExtraDTO() {}
+	public CowExtraDTO_response() {}
 	
-	public CowExtraDTO(long id, long eletronic_id, Date born_date, Date last_due_date, int deliveries,Float weigth,long id_herd,Date bcs_date, float cc) {
+	public CowExtraDTO_response(long id, long eletronic_id, Date born_date, Date last_due_date, int deliveries,Float weigth,long id_herd,Date bcs_date, float cc) {
 		this.id = id;
 		this.eletronic_id = eletronic_id;
 		this.born_date = born_date;

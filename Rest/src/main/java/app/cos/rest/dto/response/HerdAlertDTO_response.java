@@ -1,9 +1,9 @@
-package app.cos.rest.dto;
+package app.cos.rest.dto.response;
 
-public class CowAlertDTO {
+public class HerdAlertDTO_response {
 
 	private Long id;
-	private int id_cow;	
+	private Long id_herd;	
 	private int bcs_threshold_min;
 	private int bcs_threshold_max;
 	
@@ -13,11 +13,11 @@ public class CowAlertDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getId_cow() {
-		return id_cow;
+	public Long getId_herd() {
+		return id_herd;
 	}
-	public void setId_cow(int id_cow) {
-		this.id_cow = id_cow;
+	public void setId_herd(Long id_herd) {
+		this.id_herd = id_herd;
 	}
 	public int getBcs_threshold_min() {
 		return bcs_threshold_min;

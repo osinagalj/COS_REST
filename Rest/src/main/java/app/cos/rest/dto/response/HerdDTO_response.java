@@ -1,13 +1,13 @@
-package app.cos.rest.dto;
+package app.cos.rest.dto.response;
 
 import java.util.Collections;
 import java.util.List;
 
-public class HerdDTO {
+public class HerdDTO_response {
 
 	private Long id;
 	private String location;
-	private List<CowDTO> cows;
+	private List<CowDTO_response> cows;
 	
 	public Long getId() {
 		return id;
@@ -21,10 +21,10 @@ public class HerdDTO {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public List<CowDTO> getCows() {
+	public List<CowDTO_response> getCows() {
 		return Collections.unmodifiableList(cows);
 	}
-	public void setCows(List<CowDTO> cows) {
+	public void setCows(List<CowDTO_response> cows) {
 		this.cows = cows;
 	}
 

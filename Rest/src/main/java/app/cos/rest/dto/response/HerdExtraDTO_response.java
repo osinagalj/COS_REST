@@ -1,27 +1,27 @@
-package app.cos.rest.dto;
+package app.cos.rest.dto.response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HerdExtraDTO {
+public class HerdExtraDTO_response {
 	
 	private long id;
 	private String location;
 	private float average_bcs;
-	private List<CowExtraDTO> cows = new ArrayList<CowExtraDTO>();
+	private List<CowExtraDTO_response> cows = new ArrayList<CowExtraDTO_response>();
 	
 	private int cow_amount = 0;
 	private int total_bcs = 0;
 	
-	public HerdExtraDTO() {}
+	public HerdExtraDTO_response() {}
 	
-	public HerdExtraDTO(long id, String location) {
+	public HerdExtraDTO_response(long id, String location) {
 		this.id = id;
 		this.location = location;
 		this.average_bcs = 0f; 
 	}
 	
-	public void addCow(CowExtraDTO cow) {
+	public void addCow(CowExtraDTO_response cow) {
 		cows.add(cow);
 		this.cow_amount ++;
 		this.total_bcs += cow.getCc();
@@ -49,10 +49,10 @@ public class HerdExtraDTO {
 	public void setAverage_bcs(float average_bcs) {
 		this.average_bcs = average_bcs;
 	}
-	public List<CowExtraDTO> getCows() {
+	public List<CowExtraDTO_response> getCows() {
 		return cows;
 	}
-	public void setCows(List<CowExtraDTO> cows) {
+	public void setCows(List<CowExtraDTO_response> cows) {
 		this.cows = cows;
 	}
 }

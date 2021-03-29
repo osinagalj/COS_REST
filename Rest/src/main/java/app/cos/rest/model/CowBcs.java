@@ -18,6 +18,7 @@ import javax.validation.constraints.Min;
 public class CowBcs implements Comparable<CowBcs> {
 	
 	@Id
+	@Min(value = 1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
@@ -37,14 +38,45 @@ public class CowBcs implements Comparable<CowBcs> {
     public int compareTo(CowBcs cowBcs) {
         return this.date.compareTo(cowBcs.getDate());
     }
+    
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((cow == null) ? 0 : cow.hashCode());		
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CowBcs other = (CowBcs) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+    
 	//-------------------------------------------------------------------------------------//
 	//----------------------------- Getters && Setters ------------------------------------//
 	//-------------------------------------------------------------------------------------//
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public Cow getCow() {
 		return cow;
 	}

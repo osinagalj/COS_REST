@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 
 import app.cos.rest.model.Herd;
 
@@ -21,6 +22,7 @@ import app.cos.rest.model.Herd;
 public class Cow {
 	
 	@Id
+	@Min(value = 1)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	

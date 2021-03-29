@@ -62,8 +62,6 @@ public class RestServiceImp implements RestService {
 		return herdAlertRepository.save(herdAlert); 
 	}
 	
-	
-	
 	@Override
 	public CowBcs register(CowBcs cowBcs) {
 		return cowBcsRepository.save(cowBcs); 
@@ -139,6 +137,20 @@ public class RestServiceImp implements RestService {
 			CowBcs cow = it.next();
 			if(cow.getCow().getId() == id_cow)
 				cows.add(cow);
+		}
+		return cows;
+	}
+	
+
+	/*Fetch all cowBcs for a particular cow*/
+	@Override
+	public List<CowBcs> getAllCowBcs(){
+		List<CowBcs> cows = new ArrayList<CowBcs>();
+		Iterator<CowBcs> it = cowBcsRepository.findAll().iterator();
+		while (it.hasNext()) {
+			CowBcs cow = it.next();
+		
+			cows.add(cow);
 		}
 		return cows;
 	}

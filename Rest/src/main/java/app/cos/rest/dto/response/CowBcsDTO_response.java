@@ -1,11 +1,11 @@
-package app.cos.rest.dto;
+package app.cos.rest.dto.response;
 
 import java.util.Date;
 
-public class CowBcsDTO {
+public class CowBcsDTO_response {
 	
 	private Long id;
-	private int id_cow;
+	private Long cow_id;
 	private Date date;
 	private int cc;
 
@@ -15,11 +15,12 @@ public class CowBcsDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getId_cow() {
-		return id_cow;
+
+	public Long getCow_id() {
+		return cow_id;
 	}
-	public void setId_cow(int id_cow) {
-		this.id_cow = id_cow;
+	public void setCow_id(Long cow_id) {
+		this.cow_id = cow_id;
 	}
 	public Date getDate() {
 		return date;
