@@ -3,7 +3,9 @@ package app.cos.rest.controller;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,27 +160,13 @@ public class Controller {
 		return ResponseEntity.ok(cows);
 	}
 	
-	@GetMapping(path = "cows/extra")
-	public ResponseEntity<List<CowExtraDTO_response>> getCowsExtra(){
-		List<CowExtraDTO_response> cows = new ArrayList<CowExtraDTO_response>();
-		for(CowExtra cow : restService.getAllCowsExtra()) {		 
-			cows.add(modelMapper.map(cow, CowExtraDTO_response.class));
-		}
-		
-		return ResponseEntity.ok(cows);
-	}
-	
-	/*Fetch cows extra by cow id*/
-	@GetMapping(path = "cows/extra/{id}")
-	public ResponseEntity<CowExtraDTO_response> getCowsExtra(@PathVariable(value = "id") int id){
-		CowExtra cow = restService.getCowExtraById(id);
-		return ResponseEntity.ok(modelMapper.map(cow, CowExtraDTO_response.class));
-	}
-		
+
 	@GetMapping(path = "cows/{id}")
 	public ResponseEntity<CowDTO_response> getCow(@PathVariable(value = "id") int id){
 		Cow cow = restService.findById(id);
-		return ResponseEntity.ok(modelMapper.map(cow, CowDTO_response.class));
+		CowDTO_response new_cow = modelMapper.map(cow, CowDTO_response.class);
+		new_cow.setHerd_id(cow.getHerd().getId());
+		return ResponseEntity.ok(new_cow);
 	}
 	
 	@GetMapping(path = "herds")
@@ -201,6 +189,10 @@ public class Controller {
 		return ResponseEntity.ok(herds);
 	}
 	
+	
+
+	
+	
 	@GetMapping(path = "herds/{id}")
 	public ResponseEntity<HerdDTO_response> getHerd(@PathVariable(value = "id") int id){
 		Herd herd = restService.findHerdById(id);	
@@ -218,20 +210,8 @@ public class Controller {
 		return ResponseEntity.ok(new_herd);
 	}
 	
-	@GetMapping(path = "herds/extra/{id}")
-	public ResponseEntity<HerdExtraDTO_response> getHerdExtra(@PathVariable(value = "id") int id){
-		HerdExtra herd = restService.getHerdExtraById(id);
-		return ResponseEntity.ok(modelMapper.map(herd, HerdExtraDTO_response.class));
-	}
+
 	
-	@GetMapping(path = "herds/extra")
-	public ResponseEntity<List<HerdExtraDTO_response>> getAllHerdExtra(){
-		List<HerdExtraDTO_response> herds = new ArrayList<HerdExtraDTO_response>();
-		for(HerdExtra herd : restService.getAllHerdExtra())
-			herds.add(modelMapper.map(herd, HerdExtraDTO_response.class));
-				
-		return ResponseEntity.ok(herds);
-	}
 	
 	@GetMapping(path = "cowAlerts")
 	public ResponseEntity<List<CowAlertDTO_response>> getCowAlerts(){
@@ -266,6 +246,41 @@ public class Controller {
 		return ResponseEntity.ok(alerts);
 	}
 	
+	
+	//---------------------- Extras ---------------------------------------------//
+	@GetMapping(path = "cows/extra")
+	public ResponseEntity<List<CowExtraDTO_response>> getCowsExtra(){
+		List<CowExtraDTO_response> cows = new ArrayList<CowExtraDTO_response>();
+		for(CowExtra cow : restService.getAllCowsExtra()) {		 
+			cows.add(modelMapper.map(cow, CowExtraDTO_response.class));
+		}
+		
+		return ResponseEntity.ok(cows);
+	}
+
+	
+	/*Fetch cows extra by cow id*/
+	@GetMapping(path = "cows/extra/{id}")
+	public ResponseEntity<CowExtraDTO_response> getCowsExtra(@PathVariable(value = "id") int id){
+		CowExtra cow = restService.getCowExtraById(id);
+		return ResponseEntity.ok(modelMapper.map(cow, CowExtraDTO_response.class));
+	}
+	
+	
+	@GetMapping(path = "herds/extra/{id}")
+	public ResponseEntity<HerdExtraDTO_response> getHerdExtra(@PathVariable(value = "id") int id){
+		HerdExtra herd = restService.getHerdExtraById(id);
+		return ResponseEntity.ok(modelMapper.map(herd, HerdExtraDTO_response.class));
+	}
+	
+	@GetMapping(path = "herds/extra")
+	public ResponseEntity<List<HerdExtraDTO_response>> getAllHerdExtra(){
+		List<HerdExtraDTO_response> herds = new ArrayList<HerdExtraDTO_response>();
+		for(HerdExtra herd : restService.getAllHerdExtra())
+			herds.add(modelMapper.map(herd, HerdExtraDTO_response.class));
+				
+		return ResponseEntity.ok(herds);
+	}
 	
 
 	

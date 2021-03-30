@@ -48,5 +48,6 @@ public interface RestService {
 	CowBcs register(CowBcs cowBcs);
 	List<CowBcs> getAllCowBcs(long id);
 	List<CowBcs> getAllCowBcs();
+	CowBcs getLastBcs(long id);
 	
 }

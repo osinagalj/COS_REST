@@ -10,23 +10,8 @@ public class HerdExtraDTO_response {
 	private float average_bcs;
 	private List<CowExtraDTO_response> cows = new ArrayList<CowExtraDTO_response>();
 	
-	private int cow_amount = 0;
-	private int total_bcs = 0;
-	
 	public HerdExtraDTO_response() {}
 	
-	public HerdExtraDTO_response(long id, String location) {
-		this.id = id;
-		this.location = location;
-		this.average_bcs = 0f; 
-	}
-	
-	public void addCow(CowExtraDTO_response cow) {
-		cows.add(cow);
-		this.cow_amount ++;
-		this.total_bcs += cow.getCc();
-		this.average_bcs = total_bcs/cow_amount;
-	}
 	//-------------------------------------------------------------------------------------//
 	//----------------------------- Getters && Setters ------------------------------------//
 	//-------------------------------------------------------------------------------------//

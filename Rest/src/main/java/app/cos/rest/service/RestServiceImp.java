@@ -141,6 +141,25 @@ public class RestServiceImp implements RestService {
 		return cows;
 	}
 	
+	/*Fetch all cowBcs for a particular cow*/
+	@Override
+	public CowBcs getLastBcs(long id_cow){
+		List<CowBcs> cows = new ArrayList<CowBcs>();
+		Iterator<CowBcs> it = cowBcsRepository.findAll().iterator();
+		while (it.hasNext()) {
+			CowBcs cow = it.next();
+			if(cow.getCow().getId() == id_cow)
+				cows.add(cow);
+		}
+		Collections.sort(cows);
+		Collections.reverse(cows);
+		if(cows.isEmpty())
+			return null;
+		else
+			return cows.get(0);
+	}
+	
+	
 
 	/*Fetch all cowBcs for a particular cow*/
 	@Override
@@ -240,10 +259,10 @@ public class RestServiceImp implements RestService {
 	@Override
 	public HerdExtra getHerdExtraById(long id) {
 		Herd herd = herdRepository.findById(id);
-		HerdExtra new_herd = new HerdExtra();
-		new_herd.setId(herd.getId());
-		new_herd.setLocation(herd.getLocation());
-		new_herd.setCows(getAllCowsExtra(herd.getId()));
+		HerdExtra new_herd = new HerdExtra(herd.getId(),
+				herd.getLocation(),
+				getAllCowsExtra(herd.getId())
+				);
 		return new_herd;
 	}
 	

@@ -28,8 +28,9 @@ public class HerdExtra {
 			total += cow.getCc();
 			size++;
 		}
-		
-		return total/size; 
+		if(size>0)
+			return (float)total/size; 
+		return 0f;
 	}
 	
 	//-------------------------------------------------------------------------------------//
