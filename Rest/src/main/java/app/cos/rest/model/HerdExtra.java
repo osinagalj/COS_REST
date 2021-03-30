@@ -10,7 +10,6 @@ public class HerdExtra {
 	private float average_bcs;
 	private List<CowExtra> cows = new ArrayList<CowExtra>();
 	
-	
 	public HerdExtra() {}
 	
 	public HerdExtra(long id, String location,List<CowExtra> cows) {

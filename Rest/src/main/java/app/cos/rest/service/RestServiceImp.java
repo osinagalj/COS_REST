@@ -102,7 +102,6 @@ public class RestServiceImp implements RestService {
 		return herds;
 	}
 	
-	
 	@Override
 	public List<CowAlert> getAllCowAlerts(){
 		List<CowAlert> cows = new ArrayList<CowAlert>();
@@ -141,7 +140,7 @@ public class RestServiceImp implements RestService {
 		return cows;
 	}
 	
-	/*Fetch all cowBcs for a particular cow*/
+	/*Fetch last cowBcs for a particular cow*/
 	@Override
 	public CowBcs getLastBcs(long id_cow){
 		List<CowBcs> cows = new ArrayList<CowBcs>();
@@ -182,9 +181,7 @@ public class RestServiceImp implements RestService {
 	}
 	
 	
-	
 
-	/*Fetch all Cows for a particular Herd*/
 	@Override
 	public CowExtra getCowExtraById(long id) {
 		
@@ -214,8 +211,7 @@ public class RestServiceImp implements RestService {
 			new_cow.setCc(cc);
 		return new_cow;
 	}
-	
-	/*Fetch all Cows for a particular Herd*/
+
 	@Override
 	public List<CowExtra> getAllCowsExtra(){
 		List<CowExtra> cows = new ArrayList<CowExtra>();
@@ -228,7 +224,7 @@ public class RestServiceImp implements RestService {
 		return cows;
 	}
 	
-	/*Fetch all Cows for a particular Herd*/
+
 	@Override
 	public List<CowExtra> getAllCowsExtra(long id_herd){
 		List<CowExtra> cows = new ArrayList<CowExtra>();
@@ -243,7 +239,7 @@ public class RestServiceImp implements RestService {
 		return cows;
 	}
 	
-	/*Fetch all Cows for a particular Herd*/
+	
 	@Override
 	public List<HerdExtra> getAllHerdExtra(){
 		
@@ -254,8 +250,7 @@ public class RestServiceImp implements RestService {
 
 		return herds;
 	}
-	 
-	/*Fetch all Cows for a particular Herd*/
+
 	@Override
 	public HerdExtra getHerdExtraById(long id) {
 		Herd herd = herdRepository.findById(id);
