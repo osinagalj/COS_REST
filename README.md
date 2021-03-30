@@ -16,7 +16,7 @@ herds
 
 # Services
 - A user to register an animal.
-- A user associates an animal with a herd.[Link] (https://restappcows.herokuapp.com/api/v0/cows)
+- A user associates an animal with a herd.[Link](https://restappcows.herokuapp.com/api/v0/cows)
 - A user gets all the information about an animal, including the last bcs.
 - A user obtains all the information of a herd, including the average bsc
 - A user sets an alert for a specific animal.
