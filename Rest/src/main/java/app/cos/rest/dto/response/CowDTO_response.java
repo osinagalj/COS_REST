@@ -2,7 +2,7 @@ package app.cos.rest.dto.response;
 
 import java.util.Date;
 
-public class CowExtraDTO_response {
+public class CowDTO_response {
 	
 	private long id;
 	private long eletronic_id;
@@ -10,21 +10,21 @@ public class CowExtraDTO_response {
 	private Date last_due_date = null;
 	private int deliveries;
 	private Float weigth;
-	private long id_herd;	
+	private String herd;	
 	private Date bcs_date = null;
 	private float cc;
 	
 
-	public CowExtraDTO_response() {}
+	public CowDTO_response() {}
 	
-	public CowExtraDTO_response(long id, long eletronic_id, Date born_date, Date last_due_date, int deliveries,Float weigth,long id_herd,Date bcs_date, float cc) {
+	public CowDTO_response(long id, long eletronic_id, Date born_date, Date last_due_date, int deliveries,Float weigth,String herd,Date bcs_date, float cc) {
 		this.id = id;
 		this.eletronic_id = eletronic_id;
 		this.born_date = born_date;
 		this.last_due_date = last_due_date;
 		this.deliveries = deliveries;
 		this.weigth = weigth;
-		this.id_herd = id_herd;
+		this.herd = herd;
 		this.bcs_date = bcs_date;
 		this.cc = cc;
 	}
@@ -68,11 +68,14 @@ public class CowExtraDTO_response {
 	public void setWeigth(Float weigth) {
 		this.weigth = weigth;
 	}
-	public long getId_herd() {
-		return id_herd;
+
+
+	public String getHerd() {
+		return herd;
 	}
-	public void setId_herd(long id_herd) {
-		this.id_herd = id_herd;
+
+	public void setHerd(String herd) {
+		this.herd = herd;
 	}
 
 	public Date getBcs_date() {

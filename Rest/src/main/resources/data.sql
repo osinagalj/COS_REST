@@ -1,6 +1,7 @@
-INSERT INTO herd(location) VALUES('disney');
-INSERT INTO herd(location) VALUES('messilandia');
-INSERT INTO herd(location) VALUES('maiamiii');
+INSERT INTO herd(location) VALUES('primer herd');
+INSERT INTO herd(location) VALUES('segundo herd');
+INSERT INTO herd(location) VALUES('tercer herd');
+INSERT INTO herd(location) VALUES('cuarto herd');
 
 INSERT INTO cow(herd_id,eletronic_id,born_date,last_due_date,deliveries,weigth) VALUES(1,1,'2019-11-07','2021-03-27',1,70);
 INSERT INTO cow(herd_id,eletronic_id,born_date,last_due_date,deliveries,weigth) VALUES(1,2,'2019-11-07','2021-03-27',1,70);

@@ -22,7 +22,19 @@
 								}
 							}
 						},
-						"url": null
+						"url": {
+							"raw": "http://localhost:8080/api/v0/cow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"cow"
+							]
+						}
 					},
 					"response": []
 				},
@@ -64,51 +76,6 @@
 								"api",
 								"v0",
 								"cows"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get cow extra by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v0/cows/extra/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v0",
-								"cows",
-								"extra",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all cows extra",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v0/cows/extra",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v0",
-								"cows",
-								"extra"
 							]
 						}
 					},
@@ -247,51 +214,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "get one herd extra",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v0/herds/extra/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v0",
-								"herds",
-								"extra",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all herd extra",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v0/herds/extra",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v0",
-								"herds",
-								"extra"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -303,7 +225,28 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": null
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"herd_id\" : 1,\r\n\t\"bcs_threshold_min\" : 4,\r\n\t\"bcs_threshold_max\" : 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/herdAlert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"herdAlert"
+							]
+						}
 					},
 					"response": []
 				},
@@ -338,7 +281,28 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": null
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cow_id\" : 1,\r\n\t\"bcs_threshold_min\" : 4,\r\n\t\"bcs_threshold_max\" : 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v0/cowAlert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v0",
+								"cowAlert"
+							]
+						}
 					},
 					"response": []
 				},

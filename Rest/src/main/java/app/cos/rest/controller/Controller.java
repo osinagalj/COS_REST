@@ -1,6 +1,6 @@
 package app.cos.rest.controller;
 
-import java.net.URI;
+import java.net.URI; 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,17 +27,14 @@ import app.cos.rest.dto.request.HerdDTO_request;
 import app.cos.rest.dto.response.CowAlertDTO_response;
 import app.cos.rest.dto.response.CowBcsDTO_response;
 import app.cos.rest.dto.response.CowDTO_response;
-import app.cos.rest.dto.response.CowExtraDTO_response;
+
 import app.cos.rest.dto.response.HerdAlertDTO_response;
 import app.cos.rest.dto.response.HerdDTO_response;
-import app.cos.rest.dto.response.HerdExtraDTO_response;
 import app.cos.rest.model.Cow;
 import app.cos.rest.model.CowAlert;
 import app.cos.rest.model.CowBcs;
-import app.cos.rest.model.CowExtra;
 import app.cos.rest.model.Herd;
 import app.cos.rest.model.HerdAlert;
-import app.cos.rest.model.HerdExtra;
 import app.cos.rest.service.RestService;
 
 
@@ -130,87 +127,55 @@ public class Controller {
 		return ResponseEntity.created(location).body(newHerdAlert.getId());
 	}
 
-	//ASOCIA UN COW A UN HERD that already exists
-	//http://localhost:8080/api/associate_cow?herd=1&cow=1
-	@PostMapping(path = "associate_cow")
-	public ResponseEntity<CowDTO_response> registerCowToHerd(@RequestParam(value = "herd")int id_herd, @RequestParam(value = "cow")int id_cow ){
-		Herd herd = restService.findHerdById(id_herd);
-		Cow cow = restService.findById(id_cow);
-		cow.setHerd(herd);
-		restService.register(cow);
-		CowDTO_response cow_response = modelMapper.map(cow, CowDTO_response.class);
-		cow_response.setHerd_id(herd.getId());
-		return ResponseEntity.ok(cow_response);
-	}
-	
 	
 	//-----------------------------------------------------------------------------------//
-	//-------------------------------- GET ---------------------------------------------//
+	//-------------------------------- GET ----------------------------------------------//
 	//-----------------------------------------------------------------------------------//
-	
-
+		
 	@GetMapping(path = "cows")
 	public ResponseEntity<List<CowDTO_response>> getCows(){
 		List<CowDTO_response> cows = new ArrayList<CowDTO_response>();
 		for(Cow cow : restService.getAllCows()) {
-			CowDTO_response new_cow =  modelMapper.map(cow, CowDTO_response.class);
-			new_cow.setHerd_id(cow.getHerd().getId());
-			cows.add(new_cow);
+			cows.add(this.getCowResponse(cow));
 		}
+		
 		return ResponseEntity.ok(cows);
 	}
-	
 
+	/*Fetch cows with last bcs by cow id */
 	@GetMapping(path = "cows/{id}")
-	public ResponseEntity<CowDTO_response> getCow(@PathVariable(value = "id") int id){
-		Cow cow = restService.findById(id);
-		CowDTO_response new_cow = modelMapper.map(cow, CowDTO_response.class);
-		new_cow.setHerd_id(cow.getHerd().getId());
-		return ResponseEntity.ok(new_cow);
+	public ResponseEntity<CowDTO_response> getCowsById(@PathVariable(value = "id") int id){
+		Cow cow = restService.findById(id);	
+		return ResponseEntity.ok(this.getCowResponse(cow));
 	}
 	
+	/*Fetch herds with average bcs*/
 	@GetMapping(path = "herds")
 	public ResponseEntity<List<HerdDTO_response>> getHerds(){
 		List<HerdDTO_response> herds = new ArrayList<HerdDTO_response>();
-		for(Herd herd: restService.getAllHerds()) {
-			HerdDTO_response new_herd = new HerdDTO_response();
-			new_herd.setId(herd.getId());
-			new_herd.setLocation(herd.getLocation());
-			List<CowDTO_response> cows = new ArrayList<CowDTO_response>();
-			for(Cow cow : restService.getCowsByHerd(herd)) {
-				CowDTO_response new_cow = modelMapper.map(cow, CowDTO_response.class);
-				new_cow.setHerd_id(herd.getId());
-				cows.add(new_cow);
-			}
-			
-			new_herd.setCows(cows);
-			herds.add(new_herd);
-		}
+		for(Herd herd : restService.getAllHerds())
+			herds.add(this.getHerdResponse(herd));
+				
 		return ResponseEntity.ok(herds);
 	}
 	
-	
-
-	
-	
+	/*Fetch herds with average bcs by herd id*/
 	@GetMapping(path = "herds/{id}")
-	public ResponseEntity<HerdDTO_response> getHerd(@PathVariable(value = "id") int id){
-		Herd herd = restService.findHerdById(id);	
-		HerdDTO_response new_herd = new HerdDTO_response();
-		new_herd.setId(herd.getId());
-		new_herd.setLocation(herd.getLocation());
-		List<CowDTO_response> cows = new ArrayList<CowDTO_response>();
-		for(Cow cow : restService.getCowsByHerd(herd)) {
-			CowDTO_response new_cow = modelMapper.map(cow, CowDTO_response.class);
-			new_cow.setHerd_id(herd.getId());
-			cows.add(new_cow);
-		}
-		new_herd.setCows(cows);
-	
-		return ResponseEntity.ok(new_herd);
+	public ResponseEntity<HerdDTO_response> getHerdById(@PathVariable(value = "id") int id){
+		Herd herd = restService.findHerdById(id);
+		return ResponseEntity.ok(this.getHerdResponse(herd));
 	}
 	
-
+	@GetMapping(path = "cowsBcs")
+	public ResponseEntity<List<CowBcsDTO_response>> getAllCowBcs(){
+		List<CowBcsDTO_response> alerts = new ArrayList<CowBcsDTO_response>();
+		for(CowBcs cowBcs: restService.getAllCowBcs()) {
+			CowBcsDTO_response newCowBcs = modelMapper.map(cowBcs, CowBcsDTO_response.class);
+			newCowBcs.setCow_id(cowBcs.getCow().getId());
+			alerts.add(newCowBcs);
+		}
+		return ResponseEntity.ok(alerts);
+	}
 	
 	
 	@GetMapping(path = "cowAlerts")
@@ -235,54 +200,32 @@ public class Controller {
 		return ResponseEntity.ok(alerts);
 	}
 	
-	@GetMapping(path = "cowsBcs")
-	public ResponseEntity<List<CowBcsDTO_response>> getAllCowBcs(){
-		List<CowBcsDTO_response> alerts = new ArrayList<CowBcsDTO_response>();
-		for(CowBcs cowBcs: restService.getAllCowBcs()) {
-			CowBcsDTO_response newCowBcs = modelMapper.map(cowBcs, CowBcsDTO_response.class);
-			newCowBcs.setCow_id(cowBcs.getCow().getId());
-			alerts.add(newCowBcs);
-		}
-		return ResponseEntity.ok(alerts);
-	}
+
+	//-----------------------------------------------------------------------------------//
+	//-------------------------------- private Methods  --------------------------------//
+	//-----------------------------------------------------------------------------------//
 	
-	
-	//---------------------- Extras ---------------------------------------------//
-	@GetMapping(path = "cows/extra")
-	public ResponseEntity<List<CowExtraDTO_response>> getCowsExtra(){
-		List<CowExtraDTO_response> cows = new ArrayList<CowExtraDTO_response>();
-		for(CowExtra cow : restService.getAllCowsExtra()) {		 
-			cows.add(modelMapper.map(cow, CowExtraDTO_response.class));
-		}
+	private CowDTO_response getCowResponse(Cow cow) {
+		CowDTO_response new_cow = modelMapper.map(cow, CowDTO_response.class);
+		new_cow.setHerd(cow.getHerd().getLocation());
+		CowBcs cowBcs = restService.getLastBcs(cow.getId());
 		
-		return ResponseEntity.ok(cows);
-	}
-
-	
-	/*Fetch cows extra by cow id*/
-	@GetMapping(path = "cows/extra/{id}")
-	public ResponseEntity<CowExtraDTO_response> getCowsExtra(@PathVariable(value = "id") int id){
-		CowExtra cow = restService.getCowExtraById(id);
-		return ResponseEntity.ok(modelMapper.map(cow, CowExtraDTO_response.class));
+		if(cowBcs != null) {
+			new_cow.setBcs_date(cowBcs.getDate());
+			new_cow.setCc(cowBcs.getCc());
+		}
+		return new_cow;
 	}
 	
-	
-	@GetMapping(path = "herds/extra/{id}")
-	public ResponseEntity<HerdExtraDTO_response> getHerdExtra(@PathVariable(value = "id") int id){
-		HerdExtra herd = restService.getHerdExtraById(id);
-		return ResponseEntity.ok(modelMapper.map(herd, HerdExtraDTO_response.class));
+	private HerdDTO_response getHerdResponse(Herd herd) {
+		HerdDTO_response new_herd = new HerdDTO_response(herd.getId(),herd.getLocation());
+		for(Cow cow : restService.getAllCows(herd)) {
+			CowDTO_response c = getCowResponse(cow);
+			new_herd.add(c);
+		}
+		return new_herd;
 	}
 	
-	@GetMapping(path = "herds/extra")
-	public ResponseEntity<List<HerdExtraDTO_response>> getAllHerdExtra(){
-		List<HerdExtraDTO_response> herds = new ArrayList<HerdExtraDTO_response>();
-		for(HerdExtra herd : restService.getAllHerdExtra())
-			herds.add(modelMapper.map(herd, HerdExtraDTO_response.class));
-				
-		return ResponseEntity.ok(herds);
-	}
-	
-
 	
 
 

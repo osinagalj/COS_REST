@@ -1,36 +1,31 @@
-package app.cos.rest.model;
+package app.cos.rest.dto.response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HerdExtra {
+public class HerdDTO_response {
 	
 	private long id;
 	private String location;
-	private float average_bcs;
-	private List<CowExtra> cows = new ArrayList<CowExtra>();
+	private float average_bcs = 0f;
+	private List<CowDTO_response> cows = new ArrayList<CowDTO_response>();
 	
-	public HerdExtra() {}
+	private int size = 0;
+	private float total_bcs = 0f;
 	
-	public HerdExtra(long id, String location,List<CowExtra> cows) {
+	public HerdDTO_response() {}
+	
+	public HerdDTO_response(long id, String location) {
 		this.id = id;
 		this.location = location;
-		this.cows = cows;
-		this.average_bcs = calculateAverage(cows);
-
 	}
 	
-	private float calculateAverage(List<CowExtra> cows) {
-		int total = 0;
-		int size = 0;
-		for(CowExtra cow: cows) {
-			total += cow.getCc();
-			size++;
-		}
-		if(size>0)
-			return (float)total/size; 
-		return 0f;
-	}
+	public void add(CowDTO_response cow) {
+		cows.add(cow);
+		size++;
+		total_bcs += cow.getCc();
+		this.average_bcs = (float)total_bcs/size;
+	} 
 	
 	//-------------------------------------------------------------------------------------//
 	//----------------------------- Getters && Setters ------------------------------------//
@@ -54,10 +49,10 @@ public class HerdExtra {
 	public void setAverage_bcs(float average_bcs) {
 		this.average_bcs = average_bcs;
 	}
-	public List<CowExtra> getCows() {
+	public List<CowDTO_response> getCows() {
 		return cows;
 	}
-	public void setCows(List<CowExtra> cows) {
+	public void setCows(List<CowDTO_response> cows) {
 		this.cows = cows;
 	}
 }
